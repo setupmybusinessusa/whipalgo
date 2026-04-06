@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>WhipAlgo — Confirmation-Based Trading System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080810;
+    --surface: #0d0d1a;
+    --surface2: #111122;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e8f0;
+    --muted: #6b6b85;
+    --accent: #7c5cfc;
+    --accent2: #5c3fdb;
+    --green: #00d68f;
+    --green-dim: rgba(0,214,143,0.12);
+    --red: #ff4d6d;
+    --red-dim: rgba(255,77,109,0.12);
+    --purple-dim: rgba(124,92,252,0.12);
+    --mono: 'Space Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 48px;
+    background: rgba(8,8,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: var(--mono); font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.5px; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta { background: var(--accent); color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; }
+  .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+  /* SECTIONS */
+  section { padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+  h1 { font-family: var(--mono); font-size: clamp(36px, 5vw, 62px); font-weight: 700; line-height: 1.1; letter-spacing: -2px; color: #fff; }
+  h2 { font-family: var(--mono); font-size: clamp(26px, 3.5vw, 42px); font-weight: 700; line-height: 1.15; letter-spacing: -1px; color: #fff; }
+  h3 { font-family: var(--mono); font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+  p { color: var(--muted); font-size: 16px; line-height: 1.75; }
+  p.lead { font-size: 18px; color: #a0a0b8; line-height: 1.7; }
+
+  /* DIVIDER */
+  .divider { height: 1px; background: var(--border); margin: 0 48px; }
+
+  /* HERO */
+  .hero-wrap { padding-top: 160px; padding-bottom: 80px; position: relative; overflow: hidden; }
+  .hero-wrap::before {
+    content: '';
+    position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 600px;
+    background: radial-gradient(ellipse at center, rgba(124,92,252,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--purple-dim); border: 1px solid rgba(124,92,252,0.3);
+    padding: 6px 14px; border-radius: 100px;
+    font-size: 12px; color: var(--accent); font-family: var(--mono); font-weight: 700; letter-spacing: 1px;
+    margin-bottom: 32px;
+  }
+  .hero-tag::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hero h1 { margin-bottom: 24px; }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero .lead { max-width: 560px; margin-bottom: 40px; }
+  .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .btn-primary { background: var(--accent); color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: 600; font-size: 15px; text-decoration: none; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+  .btn-ghost { color: var(--muted); font-size: 14px; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+  .btn-ghost:hover { color: var(--text); }
+  .hero-stats { display: flex; gap: 48px; margin-top: 64px; padding-top: 40px; border-top: 1px solid var(--border); }
+  .stat-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: #fff; }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+  /* NOTABLE CALLS */
+  .calls-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 56px; }
+  .call-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px 28px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+  .call-card:hover { border-color: rgba(255,77,109,0.3); transform: translateY(-3px); }
+  .call-card::before {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle at top right, rgba(255,77,109,0.07), transparent 70%);
+  }
+  .call-asset { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 2px; margin-bottom: 10px; }
+  .call-name { font-family: var(--mono); font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+  .call-prices { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .call-from { font-family: var(--mono); font-size: 26px; font-weight: 700; color: var(--text); }
+  .call-arrow { color: var(--red); font-size: 22px; }
+  .call-to { font-family: var(--mono); font-size: 26px; font-weight: 700; color: var(--red); }
+  .call-bar-wrap { margin-bottom: 18px; }
+  .call-bar-label { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 8px; }
+  .call-bar-bg { background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; }
+  .call-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--red), rgba(255,77,109,0.4)); animation: barGrow 1.4s ease forwards; width: 0; }
+  @keyframes barGrow { to { width: var(--pct); } }
+  .call-drop { display: inline-flex; align-items: center; gap: 6px; background: var(--red-dim); border: 1px solid rgba(255,77,109,0.2); color: var(--red); font-family: var(--mono); font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 6px; }
+  .call-signal { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.25); color: var(--red); font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.5px; margin-left: 8px; }
+  .call-desc { font-size: 13px; color: var(--muted); margin-top: 16px; line-height: 1.7; }
+  .call-meta { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+  .call-tf { font-family: var(--mono); font-size: 10px; color: var(--accent); background: var(--purple-dim); border: 1px solid rgba(124,92,252,0.2); padding: 3px 8px; border-radius: 4px; }
+  .calls-note { margin-top: 32px; background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--muted); border-radius: 10px; padding: 20px 24px; font-size: 13px; color: var(--muted); line-height: 1.75; }
+
+  /* HOW IT WORKS */
+  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+  .how-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 32px 28px;
+    position: relative;
+  }
+  .how-num { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 2px; margin-bottom: 20px; }
+  .how-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 22px; }
+  .how-card p { font-size: 14px; margin-top: 10px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .tag { font-family: var(--mono); font-size: 10px; padding: 4px 10px; border-radius: 4px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+  /* WHY DIFFERENT */
+  .compare-table { margin-top: 48px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .compare-row { display: grid; grid-template-columns: 2fr 1fr 1fr; border-bottom: 1px solid var(--border); }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-cell { padding: 16px 24px; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .compare-row.header .compare-cell { background: var(--surface2); font-family: var(--mono); font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: 1px; }
+  .compare-cell:nth-child(2) { background: rgba(124,92,252,0.05); border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+  .check { color: var(--green); font-size: 15px; }
+  .cross { color: var(--red); font-size: 15px; }
+
+  /* PRICING */
+  .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 56px; max-width: 800px; margin-left: auto; margin-right: auto; }
+  .price-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 36px 32px;
+    position: relative;
+  }
+  .price-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, var(--surface), rgba(124,92,252,0.08));
+  }
+  .price-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 4px 14px; border-radius: 100px; }
+  .price-name { font-family: var(--mono); font-size: 13px; color: var(--muted); letter-spacing: 1px; margin-bottom: 16px; }
+  .price-amount { font-family: var(--mono); font-size: 44px; font-weight: 700; color: #fff; line-height: 1; }
+  .price-amount span { font-size: 20px; color: var(--muted); }
+  .price-period { font-size: 13px; color: var(--muted); margin-top: 6px; margin-bottom: 24px; }
+  .price-features { list-style: none; margin-bottom: 32px; }
+  .price-features li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 14px; border-bottom: 1px solid var(--border); color: var(--muted); }
+  .price-features li:last-child { border-bottom: none; }
+  .price-features li .check { flex-shrink: 0; margin-top: 2px; }
+  .price-btn { display: block; text-align: center; padding: 13px; border-radius: 8px; font-weight: 600; font-size: 15px; text-decoration: none; transition: all 0.2s; }
+  .price-btn.primary { background: var(--accent); color: #fff; }
+  .price-btn.primary:hover { background: var(--accent2); }
+  .price-btn.outline { background: transparent; color: var(--text); border: 1px solid var(--border2); }
+  .price-btn.outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* FAQ */
+  .faq-list { margin-top: 48px; display: flex; flex-direction: column; gap: 4px; max-width: 760px; }
+  .faq-item { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .faq-q {
+    width: 100%; background: var(--surface); border: none; color: var(--text);
+    font-family: var(--sans); font-size: 15px; font-weight: 500;
+    padding: 20px 24px; text-align: left; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.2s;
+  }
+  .faq-q:hover { background: var(--surface2); }
+  .faq-q::after { content: '+'; font-family: var(--mono); font-size: 20px; color: var(--accent); flex-shrink: 0; margin-left: 16px; transition: transform 0.2s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-a { display: none; padding: 0 24px 20px; background: var(--surface); color: var(--muted); font-size: 14px; line-height: 1.75; }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .principle-list { list-style: none; margin-top: 32px; }
+  .principle-list li { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .principle-list li:last-child { border-bottom: none; }
+  .p-icon { font-size: 20px; flex-shrink: 0; }
+  .p-title { font-weight: 600; color: var(--text); font-size: 14px; margin-bottom: 4px; }
+  .p-desc { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  /* CTA */
+  .cta-block {
+    background: linear-gradient(135deg, rgba(124,92,252,0.15), rgba(92,63,219,0.08));
+    border: 1px solid rgba(124,92,252,0.25);
+    border-radius: 20px; padding: 72px 48px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-block::before {
+    content: '';
+    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(124,92,252,0.2) 0%, transparent 70%);
+  }
+  .cta-block h2 { margin-bottom: 16px; }
+  .cta-block p { max-width: 480px; margin: 0 auto 36px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 48px; display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 24px;
+    max-width: 100%;
+  }
+  .footer-logo { font-family: var(--mono); font-size: 16px; font-weight: 700; color: #fff; }
+  .footer-logo span { color: var(--accent); }
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-legal { color: var(--muted); font-size: 12px; line-height: 1.6; max-width: 420px; }
+
+  /* PERFORMANCE */
+  .perf-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
+  .perf-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+  .perf-val { font-family: var(--mono); font-size: 32px; font-weight: 700; color: #fff; }
+  .perf-val.green { color: var(--green); }
+  .perf-val.purple { color: var(--accent); }
+  .perf-label { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .divider { margin: 0 24px; }
+    .how-grid { grid-template-columns: 1fr; }
+    .calls-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .perf-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-stats { gap: 28px; flex-wrap: wrap; }
+    footer { padding: 32px 24px; }
+    .compare-row { grid-template-columns: 1.5fr 1fr 1fr; }
+    .compare-cell { padding: 12px 14px; font-size: 13px; }
+  }
+
+  /* ANIMATIONS */
+  .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.6s ease forwards; }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  /* GRID BACKGROUND */
+  .grid-bg {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none; z-index: 0;
+  }
+  body > *:not(.grid-bg) { position: relative; z-index: 1; }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Whip<span>Algo</span></div>
+  <div class="nav-links">
+    <a href="#calls">Notable Calls</a>
+    <a href="#how">System</a>
+    <a href="#performance">Performance</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#about">About</a>
+  </div>
+  <a href="#pricing" class="nav-cta">Get Access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero hero-wrap">
+  <div class="hero-tag">CONFIRMATION-BASED TRADING SYSTEM</div>
+  <h1 class="fade-in">Trade with<br/><em>confirmed</em><br/>clarity.</h1>
+  <p class="lead fade-in delay-1">WhipAlgo is a 3-indicator confirmation system for TradingView. Not signals. Not bots. A structured framework that filters noise and surfaces only high-quality entries.</p>
+  <div class="hero-actions fade-in delay-2">
+    <a href="#pricing" class="btn-primary">View Plans</a>
+    <a href="#how" class="btn-ghost">See how it works →</a>
+  </div>
+  <div class="hero-stats fade-in delay-3">
+    <div>
+      <div class="stat-num">3</div>
+      <div class="stat-label">Proprietary Indicators</div>
+    </div>
+    <div>
+      <div class="stat-num">8+</div>
+      <div class="stat-label">Asset Classes Supported</div>
+    </div>
+    <div>
+      <div class="stat-num">4</div>
+      <div class="stat-label">Signal Types</div>
+    </div>
+    <div>
+      <div class="stat-num">100%</div>
+      <div class="stat-label">TradingView Native</div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTABLE CALLS -->
+<section id="calls">
+  <div class="section-label">NOTABLE CALLS</div>
+  <h2>When the system<br/>called it right.</h2>
+  <p class="lead" style="margin-top:16px; max-width:600px;">These are documented macro-level calls generated using WhipAlgo's confirmation framework. No guarantees — but the system flagged each of these reversals before the move materialized.</p>
+
+  <div class="calls-grid">
+
+    <!-- GOLD -->
+    <div class="call-card">
+      <div class="call-asset">XAUUSD · GOLD</div>
+      <div class="call-name">Gold Reversal</div>
+      <div class="call-meta">
+        <span class="call-tf">WEEKLY</span>
+        <span class="call-signal">▼ CONFIRM SELL</span>
+      </div>
+      <div class="call-prices">
+        <span class="call-from">$5,200</span>
+        <span class="call-arrow">→</span>
+        <span class="call-to">$4,000</span>
+      </div>
+      <div class="call-bar-wrap">
+        <div class="call-bar-label"><span>Entry zone</span><span>−23.1% move</span></div>
+        <div class="call-bar-bg"><div class="call-bar-fill" style="--pct: 75%;"></div></div>
+      </div>
+      <div class="call-drop">▼ −$1,200 per oz</div>
+      <p class="call-desc">Whip Channel Pro flagged extreme overextension at the $5,200 level. Confirm Sell triggered on weekly timeframe as trend validation failed. The system identified exhaustion before price began its correction.</p>
+    </div>
+
+    <!-- SILVER -->
+    <div class="call-card">
+      <div class="call-asset">XAGUSD · SILVER</div>
+      <div class="call-name">Silver Top</div>
+      <div class="call-meta">
+        <span class="call-tf">WEEKLY</span>
+        <span class="call-signal">▼ CONFIRM SELL</span>
+      </div>
+      <div class="call-prices">
+        <span class="call-from">$117</span>
+        <span class="call-arrow">→</span>
+        <span class="call-to">$60</span>
+      </div>
+      <div class="call-bar-wrap">
+        <div class="call-bar-label"><span>Entry zone</span><span>−48.7% move</span></div>
+        <div class="call-bar-bg"><div class="call-bar-fill" style="--pct: 88%;"></div></div>
+      </div>
+      <div class="call-drop">▼ −$57 per oz</div>
+      <p class="call-desc">Silver showed textbook volatility squeeze followed by a failed breakout. Whip Trend Core registered bearish momentum divergence at the highs. Confirm Sell aligned across trend and volatility layers simultaneously.</p>
+    </div>
+
+    <!-- BTC CALL 1 -->
+    <div class="call-card">
+      <div class="call-asset">BTCUSDT · BITCOIN</div>
+      <div class="call-name">BTC Distribution Top</div>
+      <div class="call-meta">
+        <span class="call-tf">DAILY</span>
+        <span class="call-signal">▼ CONFIRM SELL</span>
+      </div>
+      <div class="call-prices">
+        <span class="call-from">$126K</span>
+        <span class="call-arrow">→</span>
+        <span class="call-to">$100K</span>
+      </div>
+      <div class="call-bar-wrap">
+        <div class="call-bar-label"><span>Entry zone</span><span>−20.6% move</span></div>
+        <div class="call-bar-bg"><div class="call-bar-fill" style="--pct: 62%;"></div></div>
+      </div>
+      <div class="call-drop">▼ −$26,000</div>
+      <p class="call-desc">At $126,000 BTC showed channel overextension on Whip Channel Pro with multiple standard deviations above the SMA baseline. The Confirm Sell signal triggered as trend validation broke down, preceding the correction to $100K.</p>
+    </div>
+
+    <!-- BTC CALL 2 -->
+    <div class="call-card">
+      <div class="call-asset">BTCUSDT · BITCOIN</div>
+      <div class="call-name">BTC Dead Cat Rejection</div>
+      <div class="call-meta">
+        <span class="call-tf">4H</span>
+        <span class="call-signal">▼ CONFIRM SELL</span>
+      </div>
+      <div class="call-prices">
+        <span class="call-from">$105K</span>
+        <span class="call-arrow">→</span>
+        <span class="call-to">$70K</span>
+      </div>
+      <div class="call-bar-wrap">
+        <div class="call-bar-label"><span>Entry zone</span><span>−33.3% move</span></div>
+        <div class="call-bar-bg"><div class="call-bar-fill" style="--pct: 80%;"></div></div>
+      </div>
+      <div class="call-drop">▼ −$35,000</div>
+      <p class="call-desc">Following the initial drop, BTC recovered to $105K and formed a lower high. Whip Trend Core confirmed bearish re-entry. The 4H Confirm Sell triggered at resistance, catching the continuation leg down to $70K.</p>
+    </div>
+
+  </div>
+
+  <div class="calls-note">
+    ⚠ These calls represent documented instances where WhipAlgo's framework generated signals consistent with subsequent price action. Past accuracy does not predict future results. All analysis is informational only — not financial advice. Always manage your own risk.
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">THE SYSTEM</div>
+  <h2>Three indicators.<br/>One unified framework.</h2>
+  <p class="lead" style="margin-top:16px; max-width:560px;">Each indicator in the WhipAlgo system has a distinct purpose. Together they create layered confluence — removing subjective guesswork from your entries.</p>
+
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01 / INDICATOR</div>
+      <div class="how-icon" style="background: rgba(124,92,252,0.12); color: var(--accent);">⚡</div>
+      <h3>Whip Trend Core</h3>
+      <p>Measures directional momentum using volatility-adjusted highs and lows. Uses ATR-normalized calculations to separate genuine trend moves from noise. Identifies bullish and bearish strength zones and exhaustion conditions.</p>
+      <div class="tag-row">
+        <span class="tag">ATR-Normalized</span>
+        <span class="tag">Trend Bias</span>
+        <span class="tag">Exhaustion Zones</span>
+      </div>
+    </div>
+
+    <div class="how-card">
+      <div class="how-num">02 / INDICATOR</div>
+      <div class="how-icon" style="background: rgba(0,214,143,0.1); color: var(--green);">✓</div>
+      <h3>Whip Trend Confirmation</h3>
+      <p>The signal engine of the system. Uses a volatility-based range filter to detect breakouts and reversals. Generates BUY/SELL signals and upgrades them to CONFIRM BUY / CONFIRM SELL using SMA-based trend validation.</p>
+      <div class="tag-row">
+        <span class="tag">Range Filter</span>
+        <span class="tag">BUY / SELL</span>
+        <span class="tag">CONFIRM Signals</span>
+        <span class="tag">SMA Validation</span>
+      </div>
+    </div>
+
+    <div class="how-card">
+      <div class="how-num">03 / INDICATOR</div>
+      <div class="how-icon" style="background: rgba(255,77,109,0.1); color: var(--red);">◈</div>
+      <h3>Whip Channel Pro</h3>
+      <p>SMA + standard deviation bands that visualize volatility expansion and contraction cycles. Highlights overextension, breakout zones, and squeeze conditions that precede major price moves.</p>
+      <div class="tag-row">
+        <span class="tag">SMA Bands</span>
+        <span class="tag">Volatility Squeeze</span>
+        <span class="tag">Breakout Zones</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY DIFFERENT -->
+<section id="why">
+  <div class="section-label">POSITIONING</div>
+  <h2>Why WhipAlgo is different.</h2>
+  <p class="lead" style="margin-top:16px; max-width:580px;">Most retail indicators are single-purpose. WhipAlgo was designed from the ground up as a modular, interlocking system.</p>
+
+  <div class="compare-table">
+    <div class="compare-row header">
+      <div class="compare-cell">Feature</div>
+      <div class="compare-cell" style="color: var(--accent);">WhipAlgo</div>
+      <div class="compare-cell">Generic Indicators</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell">Confirmation signals (not just buy/sell)</div>
+      <div class="compare-cell"><span class="check">✓</span></div>
+      <div class="compare-cell"><span class="cross">✗</span> Rarely</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell">Volatility-aware signal filtering</div>
+      <div class="compare-cell"><span class="check">✓</span></div>
+      <div class="compare-cell"><span class="cross">✗</span> No</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell">3-layer confluence system</div>
+      <div class="compare-cell"><span class="check">✓</span></div>
+      <div class="compare-cell"><span class="cross">✗</span> Single indicator</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell">Works across all asset classes</div>
+      <div class="compare-cell"><span class="check">✓</span></div>
+      <div class="compare-cell"><span class="check" style="color:var(--muted)">~</span> Sometimes</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell">No fake TP/SL promises</div>
+      <div class="compare-cell"><span class="check">✓</span></div>
+      <div class="compare-cell"><span class="cross">✗</span> Often misleading</div>
+    </div>
+    <div class="compare-row">
+      <div class="compare-cell">Decision-support (not automation)</div>
+      <div class="compare-cell"><span class="check">✓</span></div>
+      <div class="compare-cell"><span class="cross">✗</span> Variable</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PERFORMANCE -->
+<section id="performance">
+  <div class="section-label">SYSTEM OVERVIEW</div>
+  <h2>Built for quality<br/>over quantity.</h2>
+  <p class="lead" style="margin-top:16px; max-width:580px;">WhipAlgo's confirmation layer is specifically designed to reduce low-quality signals. The CONFIRM BUY / CONFIRM SELL signals require multi-layer agreement between trend, volatility, and momentum conditions.</p>
+
+  <div class="perf-grid">
+    <div class="perf-card">
+      <div class="perf-val purple">4</div>
+      <div class="perf-label">Signal Types Generated</div>
+    </div>
+    <div class="perf-card">
+      <div class="perf-val green">2×</div>
+      <div class="perf-label">Confirmation filter over base signals</div>
+    </div>
+    <div class="perf-card">
+      <div class="perf-val">15+</div>
+      <div class="perf-label">Timeframes supported</div>
+    </div>
+    <div class="perf-card">
+      <div class="perf-val green">∞</div>
+      <div class="perf-label">Markets: Crypto, Forex, Indices, Stocks, Commodities</div>
+    </div>
+  </div>
+
+  <div style="margin-top:40px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:28px 32px; border-left: 3px solid var(--accent);">
+    <p style="font-size:13px; color:var(--muted); line-height:1.8;"><strong style="color:var(--text);">Disclaimer:</strong> WhipAlgo is a decision-support tool, not a financial advisor. Past system behavior does not guarantee future results. All trading involves risk. The indicators assist analysis — they do not replace judgment, risk management, or professional advice.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">PLANS</div>
+  <h2>Two plans.<br/>No complexity.</h2>
+  <p class="lead" style="margin-top:16px; max-width:480px; margin-bottom:0;">Access the system at the level that fits your trading style. No hidden indicators, no upsells.</p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">PRO PLAN</div>
+      <div class="price-amount"><span>$</span>49</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Whip Trend Confirmation indicator</li>
+        <li><span class="check">✓</span> BUY / SELL signals</li>
+        <li><span class="check">✓</span> CONFIRM BUY / CONFIRM SELL signals</li>
+        <li><span class="check">✓</span> Volatility-filtered entries</li>
+        <li><span class="check">✓</span> All asset classes</li>
+        <li><span class="check">✓</span> All timeframes</li>
+        <li><span class="check">✓</span> TradingView access</li>
+      </ul>
+      <a href="#" class="price-btn outline">Get Pro</a>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-badge">RECOMMENDED</div>
+      <div class="price-name">FULL SUITE</div>
+      <div class="price-amount"><span>$</span>89</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li><span class="check">✓</span> Everything in Pro</li>
+        <li><span class="check">✓</span> Whip Trend Core indicator</li>
+        <li><span class="check">✓</span> Whip Channel Pro indicator</li>
+        <li><span class="check">✓</span> Full 3-indicator system</li>
+        <li><span class="check">✓</span> Trend + Confirmation + Volatility</li>
+        <li><span class="check">✓</span> Maximum confluence analysis</li>
+        <li><span class="check">✓</span> Priority support</li>
+      </ul>
+      <a href="#" class="price-btn primary">Get Full Suite</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-label">ABOUT WHIPALGO</div>
+      <h2>Built by traders.<br/>For traders.</h2>
+      <p class="lead" style="margin-top:16px;">WhipAlgo was developed out of frustration with retail trading tools that generate noise, make false promises, and leave traders more confused than when they started.</p>
+    </div>
+    <div>
+      <ul class="principle-list">
+        <li>
+          <div class="p-icon">🎯</div>
+          <div>
+            <div class="p-title">Confirmation over quantity</div>
+            <div class="p-desc">We don't celebrate signal frequency. We measure signal quality. The CONFIRM signal tier exists specifically to surface only the highest-conviction setups.</div>
+          </div>
+        </li>
+        <li>
+          <div class="p-icon">🧠</div>
+          <div>
+            <div class="p-title">You make the decisions</div>
+            <div class="p-desc">WhipAlgo supports your analysis. It does not replace your judgment, tell you where to place stops, or promise specific outcomes.</div>
+          </div>
+        </li>
+        <li>
+          <div class="p-icon">📐</div>
+          <div>
+            <div class="p-title">Systematic, not emotional</div>
+            <div class="p-desc">Every signal is generated by rules-based logic — volatility, trend alignment, and breakout detection — not opinion or discretion.</div>
+          </div>
+        </li>
+        <li>
+          <div class="p-icon">🔒</div>
+          <div>
+            <div class="p-title">No hype, no false claims</div>
+            <div class="p-desc">We don't publish win rates we can't verify. We don't claim the system "never loses." We build tools that inform better decisions.</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">FAQ</div>
+  <h2>Common questions.</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What exactly is WhipAlgo — is it a bot or a signal group?</button>
+      <div class="faq-a">Neither. WhipAlgo is a set of three TradingView indicators that you add to your charts. They run on your TradingView account, on any pair or timeframe you choose. There is no Telegram group, no automated bot, no account access required.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What's the difference between BUY and CONFIRM BUY?</button>
+      <div class="faq-a">A BUY signal indicates the system has detected a bullish breakout or directional shift. A CONFIRM BUY requires additional validation — the signal must also align with the SMA-based trend filter. CONFIRM signals are fewer in number but higher in quality. Many traders focus exclusively on the CONFIRM tier to reduce overtrading.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Does the system show take profit or stop loss levels?</button>
+      <div class="faq-a">No. WhipAlgo intentionally does not provide TP or SL levels. Risk management is the trader's responsibility and is highly dependent on individual position sizing, account size, and market context. The system provides directional bias and confirmation — you manage the trade.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Which markets and timeframes does it work on?</button>
+      <div class="faq-a">WhipAlgo is built to work across crypto, forex, equities, indices, and commodities. Any market available on TradingView is compatible. All timeframes are supported, from 1-minute scalping charts to weekly swing trading layouts.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What's the difference between Pro and Full Suite?</button>
+      <div class="faq-a">The Pro Plan gives you access to Whip Trend Confirmation — the core signal generator. Full Suite adds Whip Trend Core (trend direction and momentum) and Whip Channel Pro (volatility bands and squeeze detection), giving you the complete three-layer system for maximum confluence analysis.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Do I need any trading experience to use this?</button>
+      <div class="faq-a">Basic TradingView experience is helpful. You should understand how to read charts, apply indicators, and manage basic order types on your broker of choice. WhipAlgo is a decision-support tool — it's most effective in the hands of traders who already have foundational market knowledge.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is there a free trial?</button>
+      <div class="faq-a">Occasionally we run limited trial access periods. Follow our updates for announcements. All plans come with full indicator access — no feature-locked tiers within a plan.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section>
+  <div class="cta-block">
+    <div class="section-label">GET STARTED</div>
+    <h2>Stop trading noise.<br/>Start trading confirmation.</h2>
+    <p class="lead">WhipAlgo is available now on TradingView. Choose your plan and get access to the indicators immediately.</p>
+    <div class="hero-actions" style="justify-content:center;">
+      <a href="#pricing" class="btn-primary">View Pricing</a>
+      <a href="#how" class="btn-ghost">Learn the system →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Whip<span>Algo</span></div>
+    <div class="footer-legal" style="margin-top:12px;">
+      WhipAlgo provides TradingView indicators for informational and analytical purposes only. Nothing on this site constitutes financial advice. All trading involves significant risk of loss.
+    </div>
+  </div>
+  <div class="footer-links">
+    <a href="#calls">Notable Calls</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#about">About</a>
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+  </div>
+</footer>
+
+<script>
+  // FAQ toggle
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Animate bars on scroll
+  const bars = document.querySelectorAll('.call-bar-fill');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animationPlayState = 'running';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  bars.forEach(b => {
+    b.style.animationPlayState = 'paused';
+    observer.observe(b);
+  });
+</script>
+
+</body>
+</html>
