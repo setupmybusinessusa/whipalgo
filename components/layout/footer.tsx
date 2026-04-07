@@ -3,144 +3,84 @@
 export default function Footer() {
   return (
     <footer
+      className="site-footer"
       style={{
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-        padding: '48px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        gap: '24px',
-        maxWidth: '100%',
+        borderTop: '1px solid rgba(255,255,255,0.08)',
+        padding: '38px 48px',
+        background: '#0a0a12',
       }}
     >
       <div
         style={{
-          fontFamily: 'Space Mono, monospace',
-          fontSize: '16px',
-          fontWeight: 700,
-          color: '#fff',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '16px',
+          flexWrap: 'wrap',
         }}
       >
-        Whip<span style={{ color: '#7c5cfc' }}>Algo</span>
-      </div>
+        <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 'clamp(18px, 2vw, 22px)',
+              fontWeight: 700,
+              color: '#ffffff',
+              letterSpacing: '-0.4px',
+              marginBottom: '4px',
+            }}
+          >
+            Whip<span style={{ color: '#7c5cfc' }}>Algo</span>
+          </div>
+          <p
+            style={{
+              color: '#98a2b3',
+              fontSize: '13px',
+              lineHeight: 1.5,
+            }}
+          >
+            Professional confirmation indicators for TradingView.
+          </p>
+        </div>
 
-      <div style={{ display: 'flex', gap: '28px' }}>
         <a
-          href="#calls"
+          href="mailto:support@whipalgo.com"
           style={{
-            color: '#6b6b85',
+            color: '#cbd5e1',
             textDecoration: 'none',
+            border: '1px solid rgba(255,255,255,0.14)',
+            borderRadius: '8px',
+            padding: '9px 12px',
             fontSize: '13px',
-            transition: 'color 0.2s',
+            transition: 'all 0.2s ease',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e8e8f0';
+            e.currentTarget.style.borderColor = 'rgba(124,92,252,0.5)';
+            e.currentTarget.style.color = '#fff';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#6b6b85';
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.14)';
+            e.currentTarget.style.color = '#cbd5e1';
           }}
         >
-          Notable Calls
+          support@whipalgo.com
         </a>
-        <a
-          href="#how"
-          style={{
-            color: '#6b6b85',
-            textDecoration: 'none',
-            fontSize: '13px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e8e8f0';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#6b6b85';
-          }}
-        >
-          System
-        </a>
-        <a
-          href="#performance"
-          style={{
-            color: '#6b6b85',
-            textDecoration: 'none',
-            fontSize: '13px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e8e8f0';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#6b6b85';
-          }}
-        >
-          Performance
-        </a>
-        <a
-          href="#pricing"
-          style={{
-            color: '#6b6b85',
-            textDecoration: 'none',
-            fontSize: '13px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e8e8f0';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#6b6b85';
-          }}
-        >
-          Pricing
-        </a>
-        <a
-          href="#faq"
-          style={{
-            color: '#6b6b85',
-            textDecoration: 'none',
-            fontSize: '13px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e8e8f0';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#6b6b85';
-          }}
-        >
-          FAQ
-        </a>
-        <a
-          href="#about"
-          style={{
-            color: '#6b6b85',
-            textDecoration: 'none',
-            fontSize: '13px',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = '#e8e8f0';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = '#6b6b85';
-          }}
-        >
-          About
-        </a>
-      </div>
 
-      <div
-        style={{
-          color: '#6b6b85',
-          fontSize: '12px',
-          lineHeight: 1.6,
-          maxWidth: '420px',
-        }}
-      >
-        WhipAlgo is a decision-support tool for traders. Past performance does
-        not guarantee future results. Trading involves risk. Always do your own
-        research.
+        <p
+          style={{
+            width: '100%',
+            borderTop: '1px solid rgba(255,255,255,0.08)',
+            marginTop: '8px',
+            paddingTop: '14px',
+            color: '#6b7280',
+            fontSize: '12px',
+            lineHeight: 1.5,
+          }}
+        >
+          © 2026 WhipAlgo. All rights reserved.
+        </p>
       </div>
     </footer>
   );

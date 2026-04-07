@@ -13,15 +13,347 @@
 
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
     background-color: #080810;
     color: #e8e8f0;
     font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
+    font-size: clamp(16px, 2vw, 18px);
     line-height: 1.75;
     overflow-x: hidden;
+  }
+
+  /* Main content spacing */
+  main {
+    padding-top: 80px;
+  }
+
+  /* Section spacing */
+  section {
+    scroll-margin-top: 80px;
+  }
+
+  .font-heading {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .text-small {
+    font-size: clamp(14px, 1.5vw, 16px);
+  }
+
+  .text-normal {
+    font-size: clamp(16px, 2vw, 18px);
+  }
+
+  .text-large {
+    font-size: clamp(18px, 2.5vw, 20px);
+  }
+
+  .text-xs {
+    font-size: clamp(14px, 1.5vw, 14px);
+  }
+
+  .hero-container {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  /* Mobile responsive stats grid */
+  @media (max-width: 768px) {
+    .stats-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+  }
+
+  /* Mobile responsive system grid */
+  @media (max-width: 768px) {
+    main section[id='how'] div[style*='grid'] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+    }
+  }
+
+  /* Tablet responsive system grid */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    main section[id='how'] div[style*='grid'] {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .stats-grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 24px !important;
+    }
+  }
+
+  /* Desktop responsive system grid */
+  @media (min-width: 1025px) {
+    main section[id='how'] div[style*='grid'] {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 24px !important;
+    }
+  }
+
+  /* Mobile responsive notable calls grid */
+  @media (max-width: 768px) {
+    main section[id='calls'] div[style*='grid'] {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+  }
+
+  /* Tablet responsive notable calls grid */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    main section[id='calls'] div[style*='grid'] {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px !important;
+    }
+  }
+
+  /* Mobile responsive about grid */
+  @media (max-width: 768px) {
+    main section[id='about'] div[style*='grid'] {
+      grid-template-columns: 1fr !important;
+      gap: 40px !important;
+    }
+  }
+
+  /* Tablet responsive about grid */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    main section[id='about'] div[style*='grid'] {
+      grid-template-columns: 1fr !important;
+      gap: 60px !important;
+    }
+  }
+
+  /* Mobile responsive performance grid */
+  @media (max-width: 768px) {
+    main section[id='performance'] div[style*='grid'] {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 16px !important;
+    }
+  }
+
+  /* Tablet responsive performance grid */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    main section[id='performance'] div[style*='grid'] {
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 20px !important;
+    }
+  }
+
+  /* Mobile responsive pricing grid */
+  @media (max-width: 768px) {
+    main section[id='pricing'] div[style*='grid'] {
+      grid-template-columns: 1fr !important;
+      gap: 20px !important;
+    }
+  }
+
+  /* Tablet responsive pricing grid */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    main section[id='pricing'] div[style*='grid'] {
+      grid-template-columns: 1fr !important;
+      gap: 24px !important;
+    }
+  }
+
+  /* Stable responsive layout classes */
+  @media (max-width: 1024px) {
+    .landing-section {
+      padding-left: 24px !important;
+      padding-right: 24px !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    main {
+      padding-top: 64px;
+    }
+
+    .landing-section {
+      padding-top: 56px !important;
+      padding-bottom: 56px !important;
+      padding-left: 18px !important;
+      padding-right: 18px !important;
+    }
+
+    .hero {
+      padding-top: 36px !important;
+      padding-bottom: 28px !important;
+    }
+
+    .hero-container {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    .hero-stats-grid,
+    .how-grid,
+    .calls-grid,
+    .pricing-grid,
+    .about-grid,
+    .faq-grid,
+    .cta-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .performance-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .why-table-scroll {
+      overflow-x: auto;
+    }
+
+    .why-table {
+      min-width: 620px;
+    }
+
+    .site-footer {
+      padding: 48px 16px !important;
+    }
+
+    .cta-section {
+      padding-top: 88px !important;
+      padding-bottom: 88px !important;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .how-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .calls-grid,
+    .performance-grid,
+    .faq-grid,
+    .cta-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .pricing-grid,
+    .about-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 530px) {
+    .landing-section {
+      padding-top: 48px !important;
+      padding-bottom: 48px !important;
+      padding-left: 18px !important;
+      padding-right: 18px !important;
+    }
+
+    .hero {
+      padding-top: 24px !important;
+      padding-bottom: 20px !important;
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 10.5vw, 42px) !important;
+      line-height: 1.08 !important;
+      margin-bottom: 16px !important;
+    }
+
+    .hero p {
+      font-size: 15px !important;
+      line-height: 1.65 !important;
+      margin-bottom: 28px !important;
+    }
+
+    .hero a[href='#pricing'] {
+      width: 100%;
+      justify-content: center;
+      padding: 13px 16px !important;
+    }
+
+    .hero-stats-grid {
+      margin-top: 24px !important;
+      padding-top: 16px !important;
+      gap: 12px !important;
+    }
+
+    .hero-container {
+      max-width: none !important;
+      width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+    .landing-section h2 {
+      font-size: clamp(24px, 8vw, 30px) !important;
+      letter-spacing: -0.5px !important;
+      line-height: 1.15 !important;
+    }
+
+    .how-grid > div,
+    .calls-grid > div,
+    .performance-grid > div,
+    .pricing-grid > div,
+    .faq-grid > div,
+    .cta-grid > div {
+      padding: 20px 16px !important;
+      border-radius: 12px !important;
+    }
+
+    .performance-grid {
+      grid-template-columns: 1fr !important;
+    }
+
+    .faq-grid {
+      gap: 16px !important;
+      margin-top: 36px !important;
+    }
+
+    .why-table {
+      min-width: 560px;
+    }
+
+    .cta-section {
+      padding-top: 56px !important;
+      padding-bottom: 56px !important;
+    }
+
+    .site-footer {
+      padding: 40px 14px !important;
+    }
+  }
+
+  .why-table-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(124, 92, 252, 0.7) rgba(255, 255, 255, 0.08);
+  }
+
+  .why-table-scroll::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .why-table-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+  }
+
+  .why-table-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #7c5cfc, #5c3fdb);
+    border-radius: 999px;
+  }
+
+  .why-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #8a6bff, #6a4ae4);
   }
 }
 

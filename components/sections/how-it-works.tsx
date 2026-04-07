@@ -1,8 +1,12 @@
+'use client';
+
+import { Zap, CheckCircle, Activity, TrendingUp } from 'lucide-react';
+
 export default function HowItWorksSection() {
   const indicators = [
     {
       number: '01 / INDICATOR',
-      icon: '⚡',
+      icon: <Zap size={24} style={{ color: '#7c5cfc' }} />,
       iconBg: 'rgba(124,92,252,0.12)',
       iconColor: '#7c5cfc',
       title: 'Whip Trend Core',
@@ -12,7 +16,7 @@ export default function HowItWorksSection() {
     },
     {
       number: '02 / INDICATOR',
-      icon: '✓',
+      icon: <CheckCircle size={24} style={{ color: '#00d68f' }} />,
       iconBg: 'rgba(0,214,143,0.1)',
       iconColor: '#00d68f',
       title: 'Whip Trend Confirmation',
@@ -22,7 +26,7 @@ export default function HowItWorksSection() {
     },
     {
       number: '03 / INDICATOR',
-      icon: '◈',
+      icon: <Activity size={24} style={{ color: '#7c5cfc' }} />,
       iconBg: 'rgba(255,77,109,0.1)',
       iconColor: '#ff4d6d',
       title: 'Whip Channel Pro',
@@ -35,12 +39,14 @@ export default function HowItWorksSection() {
   return (
     <section
       id="how"
+      className="landing-section"
       style={{ padding: '100px 48px', maxWidth: '1200px', margin: '0 auto' }}
     >
       <div
+        className="how-grid"
         style={{
-          fontFamily: 'Space Mono, monospace',
-          fontSize: '11px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 'clamp(14px, 1.5vw, 16px)',
           color: '#7c5cfc',
           letterSpacing: '3px',
           textTransform: 'uppercase',
@@ -51,7 +57,7 @@ export default function HowItWorksSection() {
       </div>
       <h2
         style={{
-          fontFamily: 'Space Mono, monospace',
+          fontFamily: 'Inter, sans-serif',
           fontWeight: 700,
           fontSize: 'clamp(26px, 3.5vw, 42px)',
           lineHeight: 1.15,
@@ -67,7 +73,7 @@ export default function HowItWorksSection() {
       <p
         style={{
           fontSize: '16px',
-          color: '#6b6b85',
+          color: '#e2e8f0',
           lineHeight: 1.75,
           maxWidth: '560px',
           marginTop: '16px',
@@ -99,8 +105,8 @@ export default function HowItWorksSection() {
           >
             <div
               style={{
-                fontFamily: 'Space Mono, monospace',
-                fontSize: '11px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 'clamp(14px, 1.5vw, 16px)',
                 color: '#7c5cfc',
                 letterSpacing: '2px',
                 marginBottom: '20px',
@@ -128,8 +134,8 @@ export default function HowItWorksSection() {
 
             <h3
               style={{
-                fontFamily: 'Space Mono, monospace',
-                fontSize: '18px',
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 'clamp(18px, 2.5vw, 20px)',
                 fontWeight: 700,
                 color: '#fff',
                 marginBottom: '10px',
@@ -139,8 +145,8 @@ export default function HowItWorksSection() {
             </h3>
             <p
               style={{
-                fontSize: '14px',
-                color: '#6b6b85',
+                fontSize: 'clamp(16px, 2vw, 18px)',
+                color: '#e2e8f0',
                 marginTop: '10px',
                 lineHeight: 1.75,
               }}
@@ -160,12 +166,12 @@ export default function HowItWorksSection() {
                 <span
                   key={tagIndex}
                   style={{
-                    fontFamily: 'Space Mono, monospace',
-                    fontSize: '10px',
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 'clamp(14px, 1.5vw, 14px)',
                     padding: '4px 10px',
                     borderRadius: '4px',
                     background: '#111122',
-                    color: '#6b6b85',
+                    color: '#e2e8f0',
                     border: '1px solid rgba(255,255,255,0.06)',
                   }}
                 >

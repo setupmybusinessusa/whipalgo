@@ -59,12 +59,14 @@ export default function NotableCallsSection() {
   return (
     <section
       id="calls"
+      className="landing-section"
       style={{ padding: '100px 48px', maxWidth: '1200px', margin: '0 auto' }}
     >
       <div
+        className="calls-grid"
         style={{
-          fontFamily: 'Space Mono, monospace',
-          fontSize: '11px',
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 'clamp(14px, 1.5vw, 16px)',
           color: '#7c5cfc',
           letterSpacing: '3px',
           textTransform: 'uppercase',
@@ -75,7 +77,7 @@ export default function NotableCallsSection() {
       </div>
       <h2
         style={{
-          fontFamily: 'Space Mono, monospace',
+          fontFamily: 'Inter, sans-serif',
           fontWeight: 700,
           fontSize: 'clamp(26px, 3.5vw, 42px)',
           lineHeight: 1.15,
@@ -91,7 +93,7 @@ export default function NotableCallsSection() {
       <p
         style={{
           fontSize: '16px',
-          color: '#6b6b85',
+          color: '#e2e8f0',
           lineHeight: 1.75,
           maxWidth: '600px',
           marginTop: '16px',
@@ -145,9 +147,9 @@ export default function NotableCallsSection() {
 
             <div
               style={{
-                fontFamily: 'Space Mono, monospace',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '12px',
-                color: '#6b6b85',
+                color: '#e2e8f0',
                 letterSpacing: '2px',
                 marginBottom: '10px',
               }}
@@ -156,7 +158,7 @@ export default function NotableCallsSection() {
             </div>
             <div
               style={{
-                fontFamily: 'Space Mono, monospace',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '22px',
                 fontWeight: 700,
                 color: '#fff',
@@ -177,7 +179,7 @@ export default function NotableCallsSection() {
             >
               <span
                 style={{
-                  fontFamily: 'Space Mono, monospace',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '10px',
                   color: '#7c5cfc',
                   background: 'rgba(124,92,252,0.12)',
@@ -196,7 +198,7 @@ export default function NotableCallsSection() {
                   background: 'rgba(255,77,109,0.1)',
                   border: '1px solid rgba(255,77,109,0.25)',
                   color: '#ff4d6d',
-                  fontFamily: 'Space Mono, monospace',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '10px',
                   fontWeight: 700,
                   padding: '4px 10px',
@@ -220,7 +222,7 @@ export default function NotableCallsSection() {
             >
               <span
                 style={{
-                  fontFamily: 'Space Mono, monospace',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '26px',
                   fontWeight: 700,
                   color: '#e8e8f0',
@@ -231,7 +233,7 @@ export default function NotableCallsSection() {
               <span style={{ color: '#ff4d6d', fontSize: '22px' }}>→</span>
               <span
                 style={{
-                  fontFamily: 'Space Mono, monospace',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '26px',
                   fontWeight: 700,
                   color: '#ff4d6d',
@@ -246,9 +248,9 @@ export default function NotableCallsSection() {
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  fontFamily: 'Space Mono, monospace',
+                  fontFamily: 'Inter, sans-serif',
                   fontSize: '10px',
-                  color: '#6b6b85',
+                  color: '#e2e8f0',
                   marginBottom: '8px',
                 }}
               >
@@ -289,7 +291,7 @@ export default function NotableCallsSection() {
                 background: 'rgba(255,77,109,0.12)',
                 border: '1px solid rgba(255,77,109,0.2)',
                 color: '#ff4d6d',
-                fontFamily: 'Space Mono, monospace',
+                fontFamily: 'Inter, sans-serif',
                 fontSize: '12px',
                 fontWeight: 700,
                 padding: '5px 12px',
@@ -302,7 +304,7 @@ export default function NotableCallsSection() {
             <p
               style={{
                 fontSize: '13px',
-                color: '#6b6b85',
+                color: '#e2e8f0',
                 marginTop: '16px',
                 lineHeight: 1.7,
               }}
@@ -322,7 +324,7 @@ export default function NotableCallsSection() {
           borderRadius: '10px',
           padding: '20px 24px',
           fontSize: '13px',
-          color: '#6b6b85',
+          color: '#e2e8f0',
           lineHeight: 1.75,
         }}
       >
