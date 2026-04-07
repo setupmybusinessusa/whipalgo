@@ -1,6 +1,6 @@
 'use client';
 
-import { Zap, CheckCircle, Activity, TrendingUp } from 'lucide-react';
+import { Zap, CheckCircle, Activity } from 'lucide-react';
 
 export default function HowItWorksSection() {
   const indicators = [

@@ -12,15 +12,6 @@ export const Label: React.FC<LabelProps> = ({
   size = 'md',
 }) => {
   const getStyles = () => {
-    const baseStyles = {
-      fontFamily: 'Inter, sans-serif',
-      fontWeight: 600,
-      letterSpacing: '1px',
-      textTransform: 'uppercase',
-      display: 'inline-block',
-      transition: 'all 0.2s ease',
-    };
-
     const sizeStyles = {
       sm: {
         fontSize: 'clamp(10px, 1.2vw, 12px)',

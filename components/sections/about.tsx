@@ -1,16 +1,6 @@
 'use client';
 
-// Icons using brand purple color
-interface PurpleIconProps {
-  children: React.ReactNode;
-  size?: number;
-}
-
-const PurpleIcon: React.FC<PurpleIconProps> = ({ children, size = 20 }) => (
-  <div style={{ color: '#7c5cfc', fontSize: `${size}px` }}>{children}</div>
-);
-
-import { Target, Zap, TrendingUp } from 'lucide-react';
+import { Target, TrendingUp } from 'lucide-react';
 import { Label } from '../ui/label';
 
 export default function AboutSection() {

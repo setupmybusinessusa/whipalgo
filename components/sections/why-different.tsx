@@ -1,6 +1,6 @@
 'use client';
 
-import { CheckCircle, X } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 
 export default function WhyDifferentSection() {
   const features = [
