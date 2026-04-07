@@ -102,7 +102,7 @@ export default function PricingSection() {
               background: plan.featured
                 ? 'linear-gradient(135deg, #0d0d1a, rgba(124,92,252,0.08))'
                 : '#0d0d1a',
-              border: plan.featureed
+              border: plan.featured
                 ? '1px solid #7c5cfc'
                 : '1px solid rgba(255,255,255,0.06)',
               borderRadius: '16px',
