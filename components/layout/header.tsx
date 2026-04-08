@@ -68,9 +68,31 @@ export default function Header() {
             fontWeight: 700,
             color: '#fff',
             letterSpacing: '-0.5px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
           }}
         >
-          Whip<span style={{ color: '#7c5cfc' }}>Algo</span>
+          <a
+            href="/"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              textDecoration: 'none',
+            }}
+          >
+            <img
+              src="/images/whipalgo-logo-icon.jpeg"
+              alt="WhipAlgo"
+              style={{
+                width: '48px',
+                height: '48px',
+                marginRight: '8px',
+                backgroundColor: 'transparent',
+              }}
+            />
+          </a>
         </div>
 
         {/* Desktop Navigation */}
@@ -147,7 +169,9 @@ export default function Header() {
         <button
           className="mobile-menu-button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-label={
+            mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'
+          }
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-menu-panel"
           style={{

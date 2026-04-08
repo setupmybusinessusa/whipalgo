@@ -68,19 +68,58 @@ export default function Footer() {
           support@whipalgo.com
         </a>
 
-        <p
+        <div
           style={{
             width: '100%',
             borderTop: '1px solid rgba(255,255,255,0.08)',
             marginTop: '8px',
             paddingTop: '14px',
-            color: '#6b7280',
-            fontSize: '12px',
-            lineHeight: 1.5,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
-          © 2026 WhipAlgo. All rights reserved.
-        </p>
+          <div style={{ color: '#6b7280', fontSize: '12px', lineHeight: 1.5 }}>
+            © 2026 WhipAlgo. All rights reserved.
+          </div>
+
+          <div style={{ display: 'flex', gap: '24px' }}>
+            <a
+              href="/legal/terms"
+              style={{
+                color: '#9ca3af',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#7c5cfc';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#9ca3af';
+              }}
+            >
+              Terms of Service
+            </a>
+            <a
+              href="/legal/privacy"
+              style={{
+                color: '#9ca3af',
+                textDecoration: 'none',
+                fontSize: '13px',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#7c5cfc';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#9ca3af';
+              }}
+            >
+              Privacy Policy
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );

@@ -1,0 +1,20 @@
+{
+  "name": "whipalgo",
+  "version": "1.0.0",
+  "description": "WhipAlgo - Confirmation-Based Trading System",
+  "keywords": ["trading", "indicators", "technical analysis", "AI"],
+  "author": "WhipAlgo Team",
+  "license": "MIT",
+  "homepage": "https://whipalgo.com",
+  "icons": {
+    "src": "/images/whipalgo-logo-icon.jpeg",
+    "sizes": "192x192",
+    "type": "image/jpeg"
+  },
+  "short_name": "WhipAlgo",
+  "display": "standalone",
+  "start_url": "https://whipalgo.com",
+  "scope": "/",
+  "background_color": "#7c5cfc",
+  "theme_color": "#ffffff"
+}
